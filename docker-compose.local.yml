@@ -1,0 +1,53 @@
+version: "3"
+
+services:
+  app:
+    image: ssthapa/uipa_backend:0.10
+    platform: linux/amd64
+    volumes:
+      - .:/app
+    environment:
+      - "DATABASE_URL=postgis://froide:froide@db:5432/froide"
+      - "DJANGO_ELASTICSEARCH_HOST=elasticsearch"
+    ports:
+      - "8000:8000"
+    networks:
+      uipa: {}
+    depends_on:
+      - db
+      - elasticsearch
+  db:
+    image: postgis/postgis:14-3.1
+    platform: linux/amd64
+    volumes:
+      - ./data/postgres_data:/var/lib/postgresql/data/:Z
+    environment:
+      POSTGRES_USER: froide
+      POSTGRES_DB: froide
+      POSTGRES_PASSWORD: froide
+    ports:
+      - "127.0.0.1:5432:5432"
+    networks:
+      uipa: {}
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    platform: linux/amd64
+    volumes:
+      - es-data:/usr/share/elasticsearch/data:Z
+      - es-logs:/var/log:Z
+    environment:
+      - "discovery.type=single-node"
+      - "cluster.routing.allocation.disk.threshold_enabled=false"
+      - "cluster.routing.allocation.disk.watermark.low=3gb"
+      - "cluster.routing.allocation.disk.watermark.high=2gb"
+      - "cluster.routing.allocation.disk.watermark.flood_stage=1gb"
+    ports:
+      - "127.0.0.1:9200:9200"
+    networks:
+      uipa: {}
+volumes:
+  es-data: {}
+  es-logs: {}
+  pg-data: {}
+networks:
+  uipa: {}
