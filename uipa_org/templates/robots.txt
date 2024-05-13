@@ -1,0 +1,14 @@
+# Hello, this is not the robots.txt file you are looking for.
+
+User-agent: *
+Disallow: /account/*
+Disallow: /admin/*
+Disallow: /uipa-admin/*
+
+#  __    __   __  .______      ___      
+# |  |  |  | |  | |   _  \    /   \     
+# |  |  |  | |  | |  |_)  |  /  ^  \    
+# |  |  |  | |  | |   ___/  /  /_\  \   
+# |  `--'  | |  | |  |     /  _____  \  
+#  \______/  |__| | _|    /__/     \__\ 
+                                      

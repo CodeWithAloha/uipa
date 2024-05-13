@@ -4,6 +4,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib.sitemaps import views as sitemaps_views
 from django.contrib.flatpages.views import flatpage
 from django.utils.translation import gettext
+from django.views.generic.base import TemplateView
 
 from froide.urls import (
     admin_urls,
@@ -61,6 +62,13 @@ urlpatterns += [
     # Redirect /help and /about to /help/faq
     re_path(r'^%s/$' % gettext('help'), flatpage, {'url': '/help/faq/'}, name='help'),
     re_path(r'^%s/$' % gettext('about'), flatpage, {'url': '/help/faq/'}, name='about'),
+    
+    # Beep boop, robots.txt
+    re_path(
+        "robots.txt",
+        TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+    ),
+    
     # Base case: Redirect all other requests to the index view
     re_path('', index, name='index'),
 ]
