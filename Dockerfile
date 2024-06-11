@@ -4,22 +4,8 @@ FROM mcr.microsoft.com/devcontainers/python:3.12
 # Install main dependencies in one step to reduce layers
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y --no-install-recommends \
-        # libqpdf-dev \
-        # g++ \
-        # wget \
-        # python3-pip \
-        # python3-psycopg2 \
-        # python3-lxml \
-        # python-is-python3 \
-        # python3-venv \
-        # libxml2-dev \
-        # libpq-dev \
-        # libgdal-dev \
-        # imagemagick \
-        # git \
-        # libpangocairo-1.0-0 \
-        # libmagic1 \
-        # sudo \
+        libpoppler-cpp-dev \
+        python-is-python3 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -29,11 +15,20 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # Copy the requirements file to the working directory
 COPY requirements.txt .
 
-# Create and activate a virtual environment, then install dependencies
-RUN python3 -m venv /workspace/venv \
-    && /workspace/venv/bin/pip install --upgrade pip \
-    && /workspace/venv/bin/pip install -r requirements.txt
-RUN cat requirements.txt
+# Display the contents of requirements.txt for debugging
+RUN echo "Displaying requirements.txt:" && cat requirements.txt
+
+# Display Python and pip versions for debugging
+RUN python3 --version && pip --version
+
+# Create and activate a virtual environment
+RUN python3 -m venv /workspace/venv
+
+# Upgrade pip
+RUN /workspace/venv/bin/pip install --upgrade pip
+
+# Install dependencies
+RUN /workspace/venv/bin/pip install -r requirements.txt
 
 # Set environment variables to use the virtual environment by default
 ENV VIRTUAL_ENV=/workspace/venv
