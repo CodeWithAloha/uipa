@@ -33,6 +33,7 @@ COPY requirements.txt .
 RUN python3 -m venv /workspace/venv \
     && /workspace/venv/bin/pip install --upgrade pip \
     && /workspace/venv/bin/pip install -r requirements.txt
+RUN cat requirements.txt
 
 # Set environment variables to use the virtual environment by default
 ENV VIRTUAL_ENV=/workspace/venv
