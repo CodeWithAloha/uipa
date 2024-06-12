@@ -37,4 +37,4 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # Start Docker daemon
 
 # should already be available by default? 
-# CMD ["sudo", "service", "docker", "start"]
+CMD ["sudo", "service", "docker", "start"]

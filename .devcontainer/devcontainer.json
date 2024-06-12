@@ -1,31 +1,20 @@
-
-//! need to cleanup, also codespace ran out of space (8 -core 32GB RAM • 64GB works so far without losing space)
-//! has over an hour + upstart and needs further investigation overall
-
 {
-	"name": "UIPA DevBox",
-	"build": {
-	  "context": "..",
-	  "dockerfile": "../Dockerfile"
-	},
-	"runArgs": [
-	  "--init",
-	  "--privileged"
-	],
-	"forwardPorts": [8000, 5432, 9200],
-	// "postCreateCommand": "sudo usermod -aG docker $USER && sudo service docker start",
-	"postCreateCommand": "sudo usermod -aG docker $USER",
-	"postStartCommand": "bash cleanup_and_start.sh",
-	"customizations": {
-	  "vscode": {
-		"extensions": [
-		  "ms-python.python",
-		  "ms-azuretools.vscode-docker"
-		],
-		"settings": {
-		  "terminal.integrated.shell.linux": "/bin/bash"
-		}
-	  }
-	}
-  }
-  
+    "name": "UIPA DevBox",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "devcontainer",
+    "workspaceFolder": "/workspaces/uipa",
+    "forwardPorts": [8000, 5432, 9200],
+    // "postCreateCommand": "sudo usermod -aG docker $USER",
+    // "postStartCommand": "bash /workspace/cleanup_and_start.sh",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-azuretools.vscode-docker"
+            ],
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            }
+        }
+    }
+}
