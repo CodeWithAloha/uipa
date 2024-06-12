@@ -1,11 +1,16 @@
 # Use the official Python image as the base image
-FROM mcr.microsoft.com/devcontainers/python:3.12
+# FROM mcr.microsoft.com/devcontainers/python:3.12
+
+# Default Codespaces image
+FROM mcr.microsoft.com/devcontainers/universal:2
 
 # Install main dependencies in one step to reduce layers
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y --no-install-recommends \
         libpoppler-cpp-dev \
         python-is-python3 \
+        # gdal-bin \d
+        # libgdal-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -35,6 +40,4 @@ ENV VIRTUAL_ENV=/workspace/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Start Docker daemon
-
-# should already be available by default? 
 CMD ["sudo", "service", "docker", "start"]
