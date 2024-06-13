@@ -24,6 +24,8 @@ services:
       - "cluster.routing.allocation.disk.watermark.low=3gb"
       - "cluster.routing.allocation.disk.watermark.high=2gb"
       - "cluster.routing.allocation.disk.watermark.flood_stage=1gb"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  # Limit JVM heap size to 512MB
+
     ports:
       # - "127.0.0.1:9200:9200"
       - "9200:9200"

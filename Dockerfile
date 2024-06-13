@@ -32,7 +32,7 @@ RUN python3 --version && pip --version
 RUN pip install --upgrade pip
 
 # Install dependencies globally
-RUN pip install -r requirements.txt
+# RUN pip install -r requirements.txt
 
 # Keep Container On
 # CMD ["sleep", "infinity"]
