@@ -35,5 +35,5 @@ RUN pip install --upgrade pip
 # Install dependencies globally
 RUN pip install -r requirements.txt
 
-# Start Docker daemon
-CMD ["sudo", "service", "docker", "start"]
+# Keep Container On
+CMD ["sleep", "infinity"]
