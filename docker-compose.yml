@@ -24,24 +24,27 @@ services:
       - "cluster.routing.allocation.disk.watermark.low=3gb"
       - "cluster.routing.allocation.disk.watermark.high=2gb"
       - "cluster.routing.allocation.disk.watermark.flood_stage=1gb"
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  # Limit JVM heap size to 512MB
-
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "bootstrap.memory_lock=true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     ports:
-      # - "127.0.0.1:9200:9200"
       - "9200:9200"
+      # - "127.0.0.1:9200:9200"
 
-
-  devcontainer:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ../..:/workspaces:cached
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-      - elasticsearch
+  # devcontainer:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ../..:/workspaces:cached
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - db
+  #     - elasticsearch
 
 
     # command: python manage.py runserver 0.0.0.0:8000
