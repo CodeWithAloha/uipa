@@ -9,8 +9,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y --no-install-recommends \
         libpoppler-cpp-dev \
         python-is-python3 \
-        # gdal-bin \d
-        # libgdal-dev \
+        gdal-bin \
+        libgdal-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
