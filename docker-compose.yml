@@ -13,9 +13,12 @@ services:
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
-    volumes:
-      - es-data:/usr/share/elasticsearch/data
-      - es-logs:/var/log
+       volumes:
+        - ./temp/data:/usr/share/elasticsearch/data  # Mount host directory for data
+        - ./temp/logs:/usr/share/elasticsearch/logs  # Mount host directory for logs
+    # volumes:
+    #   - es-data:/usr/share/elasticsearch/data
+    #   - es-logs:/var/log
     environment:
       - "discovery.type=single-node"
       - "xpack.security.enabled=true"
