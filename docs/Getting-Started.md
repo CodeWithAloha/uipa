@@ -3,7 +3,11 @@
 After setting up the prerequisites, run the following commands from the `uipa` directory in the working directory that you cloned the UIPA repository into.
 
 - In a terminal window, run `docker-compose up`.
-- In another terminal window, run `bash data/seed/init_db.sh`.
+- In another terminal window, run:
+    - `python -m venv venv`
+    - `source venv/bin/activate`
+    - `pip install -r requirements.txt`
+    - `bash data/seed/init_db.sh`.
 - In that same terminal window, run `python manage.py runserver`.
 - Open `http://127.0.0.1:8000/` in your web browser.
 
@@ -90,13 +94,6 @@ Run these commands:
 - `source venv/bin/activate`
 - `pip install -r requirements.txt`
 - `bash data/seed/init_db.sh`
-    <br>You will be prompted for the email address, username, and password for an administrative user. You can use this or pick your own:
-
-    ```
-    Email address: admin@uipa.org
-    Username: admin
-    Password: secret007
-    ```
 - `python manage.py check`
 
 These commands do the following:
@@ -109,7 +106,29 @@ These commands do the following:
 - Create an administrative user.
 - Check that your Django development environment is set up correctly.
 
-## Running the Backend
+The administrative user is:
+    ```
+    Email address: admin@uipa.org
+    Password:      secret007
+    Username:      admin
+    First name:    Adam
+    Last name:     Ministrator
+    ```
+> CAUTION: Don't do this for any non-development server set-up.
+
+### Frontend
+
+Run these commands:
+
+- `yarn install`
+- `yarn build`
+
+These commands do the following:
+- Install ViteJS frontend JavaScrip tooling.
+- Install JavaScript dependencies.
+- Build the frontend assets (JavaScript and CSS) for the development server.
+
+## Run the Backend
 
 If you don't have it running in a termial window, start the database and search engine using `docker-compose up`.
 
@@ -132,8 +151,7 @@ Visit http://127.0.0.1:8000/ in your browser and you should see something like:
 </picture>
 
 
-## Running the Frontend server
-
+## Run the Frontend
 
 The set up for the frontend created the assets that are needed for the development website to work without running the `ViteJS` frontend server. Also, the `Dev` configuration set in the `manage.py` file arranges things to use the created assets.
 
