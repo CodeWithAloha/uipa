@@ -1,11 +1,13 @@
 {
     "name": "UIPA DevBox",
     "dockerComposeFile": "../docker-compose.yml",
-    "service": "elasticsearch",
+    // "service": "elasticsearch",
+    "service": "devcontainer",
     "workspaceFolder": "/workspaces/uipa",
     "forwardPorts": [8000, 5432, 9200],
-    // "postCreateCommand": "sudo usermod -aG docker $USER",
-    // "postStartCommand": "bash /workspace/cleanup_and_start.sh",
+    // "postCreateCommand": "until docker info > /dev/null 2>&1; do echo 'Waiting for Docker to start...'; sleep 1; done && docker-compose up -d",
+    // "postCreateCommand": "until docker info > /dev/null 2>&1; do echo 'Waiting for Docker to start...'; sleep 1; done && docker-compose up -d && bash data/seed/init_db.sh && python manage.py runserver",
+    // "postCreateCommand": "until docker info > /dev/null 2>&1; do echo 'Waiting for Docker to start...'; sleep 1; done && docker-compose up -d && python -m venv venv && source venv/bin/activate && pip install -r requirements.txt && bash data/seed/init_db.sh && (cd frontend && yarn install && yarn build) && python manage.py check && python manage.py runserver 0.0.0.0:8000",
     "customizations": {
         "vscode": {
             "extensions": [

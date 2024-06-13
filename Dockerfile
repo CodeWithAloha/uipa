@@ -19,7 +19,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # Expose ports (if necessary)
 # EXPOSE 8000 5432 9200
 
-
 # Copy the requirements file to the working directory
 COPY requirements.txt .
 
@@ -36,4 +35,13 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Keep Container On
-CMD ["sleep", "infinity"]
+# CMD ["sleep", "infinity"]
+
+# this command below + docker compose up in post create command works
+
+# CMD ["sh", "-c", "sudo service docker start && sleep infinity"]
+
+# using this to prevent other commands from overwriting / stopping the container
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+
