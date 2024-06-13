@@ -11,6 +11,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
         python-is-python3 \
         gdal-bin \
         libgdal-dev \
+        imagemagick \
+        libmagickwand-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
