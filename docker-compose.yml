@@ -14,6 +14,8 @@ services:
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    # user: "1000:1000"  # Run as non-root user
+
     volumes:
       - ./temp/data:/usr/share/elasticsearch/data  # Mount host directory for data
       - ./temp/logs:/usr/share/elasticsearch/logs  # Mount host directory for logs
@@ -25,6 +27,12 @@ services:
       - "cluster.routing.allocation.disk.watermark.low=3gb"
       - "cluster.routing.allocation.disk.watermark.high=2gb"
       - "cluster.routing.allocation.disk.watermark.flood_stage=1gb"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  # Limit JVM heap size to 512MB
+    deploy:
+      resources:
+        limits:
+          memory: 2g  # Limit Elasticsearch memory usage to 2GB
+          cpus: '1.5'  # Limit Elasticsearch to 1.5 CPU cores
     ports:
       - "9200:9200"
 
