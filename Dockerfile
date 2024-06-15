@@ -16,6 +16,19 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Create a non-root user and group named `devuser` with UID and GID 1000 if they don't already exist
+# RUN if ! getent group devuser > /dev/null; then groupadd -g 1000 devuser; fi \
+#     && if ! id -u devuser > /dev/null 2>&1; then useradd -u 1000 -g devuser -m -s /bin/bash devuser; fi
+
+# Ensure devuser has the appropriate permissions for directories
+# RUN chown -R devuser:devuser /usr/share/elasticsearch/data /var/log /workspaces/uipa
+
+# Set the working directory
+WORKDIR /workspaces/uipa
+
+# Switch to the devuser
+USER devuser
+
 # Expose ports (if necessary)
 # EXPOSE 8000 5432 9200
 
@@ -37,10 +50,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # Keep Container On
 # CMD ["sleep", "infinity"]
 
-# this command below + docker compose up in post create command works
-
+# This command below + docker-compose up in post create command works
 # CMD ["sh", "-c", "sudo service docker start && sleep infinity"]
 
-# using this to prevent other commands from overwriting / stopping the container
-
+# Using this to prevent other commands from overwriting / stopping the container
 # ENTRYPOINT ["tail", "-f", "/dev/null"]
