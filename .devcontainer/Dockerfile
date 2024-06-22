@@ -1,7 +1,8 @@
 # Note: You can use any Debian/Ubuntu based image you want. 
-FROM mcr.microsoft.com/vscode/devcontainers/base:bullseye
+# FROM mcr.microsoft.com/vscode/devcontainers/base:bullseye
 # FROM mcr.microsoft.com/devcontainers/universal:2
 
+FROM mcr.microsoft.com/vscode/devcontainers/base:bullseye
 
 # Install main dependencies in one step to reduce layers
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -33,6 +34,8 @@ ARG USERNAME=automatic
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 COPY library-scripts/*.sh /tmp/library-scripts/
+COPY .devcontainer/library-scripts/*.sh /tmp/library-scripts/
+
 RUN apt-get update \
     && /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
     # Use Docker script from script library to set things up
@@ -44,16 +47,17 @@ RUN apt-get update \
 RUN echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
     && chmod 0440 /etc/sudoers.d/${USERNAME}
 
-# Ensure the .devcontainer directory exists and is owned by the user
-# RUN mkdir -p /workspaces/uipa/.devcontainer \
-#     && chown -R ${USER_UID}:${USER_GID} /workspaces/uipa
-
 # Set working directory to the project root
-WORKDIR /workspaces/uipa
+# WORKDIR /workspaces/uipa
 
 # Copy requirements.txt and init_db.sh to the container
-COPY requirements.txt /workspaces/uipa/
-COPY data/seed/init_db.sh /workspaces/uipa/data/seed/
+
+# COPY requirements.txt /workspaces/uipa/ worked when moved inside same dir of docker
+COPY ../requirements.txt /workspaces/uipa/
+
+
+# COPY init_db.sh tmp/workspaces/uipa/data/seed/
+COPY ../init_db.sh /workspaces/uipa/data/seed/
 
 # Debugging: display the contents of requirements.txt
 RUN echo "Displaying requirements.txt:" && cat /workspaces/uipa/requirements.txt
@@ -62,11 +66,8 @@ RUN echo "Displaying requirements.txt:" && cat /workspaces/uipa/requirements.txt
 RUN pip install -r /workspaces/uipa/requirements.txt \
     && chmod +x /workspaces/uipa/data/seed/init_db.sh
     
-ENTRYPOINT ["/bin/sh", "-c", "dockerd & while(! docker info > /dev/null 2>&1); do sleep 1; done; sudo docker-compose up -d cd /workspaces/uipa && sudo ./data/seed/init_db.sh && sudo python manage.py runserver 0.0.0.0:8000"]
+# Set ENTRYPOINT to run docker and your initialization script
+ENTRYPOINT ["/bin/sh", "-c", "dockerd & while(! docker info > /dev/null 2>&1); do sleep 1; done; cd /workspaces/uipa && ./data/seed/init_db.sh && python manage.py runserver 0.0.0.0:8000"]
 
 # Keep the container running
 CMD ["sleep", "infinity"]
-
-# [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
