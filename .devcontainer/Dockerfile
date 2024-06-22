@@ -33,8 +33,8 @@ ENV DOCKER_BUILDKIT=1
 ARG USERNAME=automatic
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
-COPY library-scripts/*.sh /tmp/library-scripts/
-COPY .devcontainer/library-scripts/*.sh /tmp/library-scripts/
+COPY library-scripts/*.sh /library-scripts/
+# COPY library-scripts/*.sh /tmp/library-scripts/
 
 RUN apt-get update \
     && /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
@@ -57,7 +57,7 @@ COPY ../requirements.txt /workspaces/uipa/
 
 
 # COPY init_db.sh tmp/workspaces/uipa/data/seed/
-COPY ../init_db.sh /workspaces/uipa/data/seed/
+# COPY ../init_db.sh /workspaces/uipa/data/seed/
 
 # Debugging: display the contents of requirements.txt
 RUN echo "Displaying requirements.txt:" && cat /workspaces/uipa/requirements.txt
