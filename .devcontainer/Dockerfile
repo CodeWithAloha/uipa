@@ -9,12 +9,28 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y --no-install-recommends \
         libpoppler-cpp-dev \
         python-is-python3 \
+        python3-venv \
+        python3-dev \
         gdal-bin \
         libgdal-dev \
         imagemagick \
         libmagickwand-dev \
+        meson \
+        ninja-build \
+        pkg-config \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    
+# Explicitly set PKG_CONFIG_PATH if necessary
+ENV PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig
+
+# Create and activate a virtual environment
+# RUN apt-get install python3-venv
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py && rm get-pip.py
+# RUN pip install --upgrade pip && pip install
     
 # [Option] Install zsh
 ARG INSTALL_ZSH="true"
@@ -33,8 +49,8 @@ ENV DOCKER_BUILDKIT=1
 ARG USERNAME=automatic
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
-COPY library-scripts/*.sh /library-scripts/
-# COPY library-scripts/*.sh /tmp/library-scripts/
+# COPY library-scripts/*.sh /library-scripts/
+COPY library-scripts/*.sh /tmp/library-scripts/
 
 RUN apt-get update \
     && /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
@@ -48,13 +64,14 @@ RUN echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
     && chmod 0440 /etc/sudoers.d/${USERNAME}
 
 # Set working directory to the project root
-# WORKDIR /workspaces/uipa
+WORKDIR /workspaces/uipa
 
 # Copy requirements.txt and init_db.sh to the container
 
 # COPY requirements.txt /workspaces/uipa/ worked when moved inside same dir of docker
 COPY ../requirements.txt /workspaces/uipa/
 
+# RUN pip install --upgrade pip && pip install -r /workspaces/uipa/requirements.txt
 
 # COPY init_db.sh tmp/workspaces/uipa/data/seed/
 # COPY ../init_db.sh /workspaces/uipa/data/seed/
@@ -63,8 +80,9 @@ COPY ../requirements.txt /workspaces/uipa/
 RUN echo "Displaying requirements.txt:" && cat /workspaces/uipa/requirements.txt
 
 # Install Python dependencies
-RUN pip install -r /workspaces/uipa/requirements.txt \
-    && chmod +x /workspaces/uipa/data/seed/init_db.sh
+RUN pip install -r /workspaces/uipa/requirements.txt 
+
+# RUN chmod +x /workspaces/uipa/data/seed/init_db.sh
     
 # Set ENTRYPOINT to run docker and your initialization script
 ENTRYPOINT ["/bin/sh", "-c", "dockerd & while(! docker info > /dev/null 2>&1); do sleep 1; done; cd /workspaces/uipa && ./data/seed/init_db.sh && python manage.py runserver 0.0.0.0:8000"]
