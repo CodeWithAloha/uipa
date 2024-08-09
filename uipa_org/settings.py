@@ -227,12 +227,17 @@ class Dev(UipaOrgThemeBase, Base):
             "STATIC_URL": super(Dev, self).STATIC_URL
         }
 
+    # uploads subdirectory in the directory where this settings file lives.
+    MEDIA_ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads')
+
     CACHES = {
         'default': {
             'LOCATION': 'dev-uipa',
             'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
         }
     }
+
+    SECRET_KEY = 'make_me_unique!!'
 
     LOGGING = {
         'version': 1,
@@ -308,6 +313,44 @@ class Dev(UipaOrgThemeBase, Base):
 
     HAYSTACK_SIGNAL_PROCESSOR = 'celery_haystack.signals.CelerySignalProcessor'
 
+    HAYSTACK_CONNECTIONS = {
+        ##'default': {
+        ##    'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        ##    'URL': 'http://127.0.0.1:8983/solr/uipa/',
+        ##    'INDEX_NAME': 'haystack',
+        ##}
+        'default': {
+            'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+        }
+    }
+
+    DATABASES = {
+        'default': {
+            #'ENGINE': 'django.db.backends.sqlite3',  # Load from fixtures doesn't work with SQLite3.
+            #'NAME': 'dev.db',
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'uipa',
+            'USER': 'uipa',
+            'PASSWORD': 'uipa',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+
+    # Send email to the console
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+    @property
+    def FROIDE_CONFIG(self):
+        config = super(Dev, self).FROIDE_CONFIG
+        config.update(dict(
+            dryrun=False,
+            make_public_num_days_after_due_date=365,
+            doc_conversion_binary="/Applications/LibreOffice.app/Contents/MacOS/soffice",
+        ))
+        return config
+
+    TEST_SELENIUM_DRIVER = 'chrome'
 
 class Beta(SentryEnabled, NginxSecureStaticEnabled, S3Enabled, SslEnabled, UipaOrgThemeBase, Base):
 

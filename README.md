@@ -10,10 +10,20 @@ Theme](https://github.com/okfde/froide-theme).
 
 Prerequisite libraries and programs:
 
+ * Python 3.5 in a virtual environment (python -m venv venv3)
  * libmagic (yum install libmagic, apt-get install libmagic, etc.)
- * Elasticsearch (download, unpack, and run with Java; https://www.elastic.co/downloads/elasticsearch)
+ * Docker
+    * Desktop (Mac or Windows) - See [Overview of Docker Desktop](https://docs.docker.com/desktop/)
+    * Engine (Linux) - See [Docker Engine overview](https://docs.docker.com/engine/)
 
-In a Python virtualenv, run:
+
+Clone this repo and change into the directory that the repo was cloned to.
+
+Start a PostgresQL docker container using:
+
+    docker compose -d
+
+After activating your Python 3.5 virtualenv, run:
 
     pip install -r requirements.txt -e . --src=./src
     python manage.py migrate  --noinput
@@ -21,12 +31,13 @@ In a Python virtualenv, run:
     python manage.py loaddata uipa_org/fixtures/*
     python manage.py runserver
 
-At this point, visit http://127.0.0.1:8000/ in your browser and you should see
-the home page for uipa.org.
-
 Be sure to remember the password for the admin user you create so that you can
 log on to the admin interface at http://127.0.0.1:8000/uipa-admin/. You can
 create or modify flatpages there.
+
+At this point, visit http://127.0.0.1:8000/ in your browser and you should see
+the home page for uipa.org.
+
 
 ### Searching for public agencies or requests
 
