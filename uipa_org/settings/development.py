@@ -2,7 +2,6 @@
 from __future__ import absolute_import
 
 from configurations import values
-from setuptools.msvc import environ
 
 from .base import UipaOrgThemeBase, env, required_env
 

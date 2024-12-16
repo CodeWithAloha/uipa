@@ -114,3 +114,4 @@ src
 
 .vite/
 node_modules
+/.venv/

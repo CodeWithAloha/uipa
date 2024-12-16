@@ -2064,37 +2064,7 @@ fraction.js@^4.3.7:
 
 "froide@https://github.com/CodeWithAloha/froide2#main":
   version "1.0.0"
-  resolved "https://github.com/CodeWithAloha/froide2#a77445108b55e49fffc0589f57fbf171a8c39589"
-  dependencies:
-    "@okfde/filingcabinet" "github:okfde/django-filingcabinet"
-    "@popperjs/core" "^2.11.5"
-    "@types/lodash.throttle" "^4.1.9"
-    "@uppy/core" "^3.0.4"
-    "@uppy/dashboard" "^3.2.0"
-    "@uppy/tus" "^3.0.5"
-    "@vueuse/core" "^10.11.0"
-    "@vueuse/integrations" "^10.11.0"
-    bootstrap "^5.3.2"
-    choices.js "^10.1.0"
-    driver.js "^1.3.1"
-    exifreader "^4.12.1"
-    font-awesome "^4.7.0"
-    leaflet "^1.5.1"
-    leaflet.icon.glyph "^0.3.0"
-    lodash.debounce "^4.0.8"
-    lodash.range "^3.2.0"
-    lodash.sortby "^4.7.0"
-    lodash.throttle "^4.1.1"
-    pdfjs-dist "^2.9.359"
-    sortablejs "^1"
-    string.prototype.repeat "^1.0.0"
-    vue "^3.2.38"
-    vuedraggable "^2.23.2"
-    vuex "^4.1.0"
-
-froide@okfde/froide:
-  version "1.0.0"
-  resolved "https://codeload.github.com/okfde/froide/tar.gz/484ca1070ea10ffa01d848499d20bf40c7cc0d79"
+  resolved "https://github.com/CodeWithAloha/froide2#1e8fabd46dc7b7e21cf967ec96e874a5932e5421"
   dependencies:
     "@okfde/filingcabinet" "github:okfde/django-filingcabinet"
     "@popperjs/core" "^2.11.5"
