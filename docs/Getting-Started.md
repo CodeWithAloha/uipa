@@ -7,7 +7,7 @@ setup any prerequisites aside from installing docker or podman.
 
 Then you can just run the following:
 
-- `docker compose -f docker-compose.local.yml up` or `podman compose -f docker-compose.local.yml up`
+- `docker compose --env-file uipa.local.env -f docker-compose.local.yml up` or `podman compose --env-file uipa.local.env -f docker-compose.local.yml up`
 - Wait a few minutes for everything to start running
 - Open `http://127.0.0.1:8000/` in your web browser.
 
