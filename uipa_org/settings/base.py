@@ -35,16 +35,16 @@ class UipaOrgThemeBase(Base):
     SITE_NAME = "UIPA.org"
     SITE_EMAIL = "info@uipa.org"
     SITE_URL = 'http://localhost:8000'
-    
+
     FRONTEND_BUILD_DIR = THEME_ROOT.parent / "build"
     STATIC_ROOT = values.Value(THEME_ROOT.parent / "public")
-    
+
     FIXTURE_DIRS = ('fixtures',)
 
     @property
     def STATICFILES_DIRS(self):
         return [THEME_ROOT / "theme/static"] + super().STATICFILES_DIRS
-    
+
     @property
     def TEMPLATES(self):
         TEMP = super().TEMPLATES
@@ -53,20 +53,13 @@ class UipaOrgThemeBase(Base):
         TEMP[0]["DIRS"] = [
             THEME_ROOT / "templates",
         ] + list(TEMP[0]["DIRS"])
-        cps = TEMP[0]["OPTIONS"]["context_processors"]
-        cps.extend(
-            [
-                # "sekizai.context_processors.sekizai",
-                # "cms.context_processors.cms_settings",
-            ]
-        )
         return TEMP
 
     @property
     def INSTALLED_APPS(self):
         installed = super(UipaOrgThemeBase, self).INSTALLED_APPS
         installed = (
-            installed.default + 
+            installed.default +
             [
                 "django.contrib.postgres",
                 "django.db.backends.postgresql",
@@ -77,7 +70,7 @@ class UipaOrgThemeBase(Base):
             ]
         )
         return installed
-    
+
     MIDDLEWARE = [
         "django.middleware.locale.LocaleMiddleware",  # needs to be before CommonMiddleware
         "django.middleware.common.CommonMiddleware",

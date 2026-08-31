@@ -14,15 +14,10 @@ class Dev(UipaOrgThemeBase):
 
     CACHES = {"default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"}}
 
-    # setup GDAL and GEOS
-    GDAL_LIBRARY_PATH = values.Value('/usr/lib/libgdal.so.34', environ=True, environ_name="GDAL_LIBRARY_PATH",
-                                     environ_prefix="")
-    GEOS_LIBRARY_PATH = values.PathValue('/usr/lib/libgeos_c.so.1', environ=True, environ_name="GEOS_LIBRARY_PATH",
-                                         environ_prefix="")
+    ELASTICSEARCH_HOST = values.Value("localhost", environ_prefix=None, environ_name="ELASTICSEARCH_HOST")
+    ELASTICSEARCH_USER = values.Value("elastic", environ_prefix=None, environ_name="ELASTICSEARCH_USER")
+    ELASTICSEARCH_PASSWORD = values.Value("froide", environ_prefix=None, environ_name="ELASTICSEARCH_PASSWORD")
 
-    ELASTICSEARCH_HOST = values.Value("localhost", environ=True, environ_name="ELASTICSEARCH_HOST")
-    ELASTICSEARCH_USER = values.Value("elastic", environ=True, environ_name="ELASTICSEARCH_USER")
-    ELASTICSEARCH_PASSWORD = values.Value("****", environ=True, environ_name="ELASTICSEARCH_PASSWORD")
     ELASTICSEARCH_DSL = {
         "default": {
             "hosts": "http://%s:9200" % ELASTICSEARCH_HOST,
@@ -35,6 +30,86 @@ class Dev(UipaOrgThemeBase):
         TEMP = super().TEMPLATES
         TEMP[0]["OPTIONS"]["debug"] = True
         return TEMP
+
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': True,
+        'root': {
+            'level': 'DEBUG',
+            'handlers': ['uipa_org_logfile',],
+        },
+        'filters': {
+            'require_debug_false': {
+                '()': 'django.utils.log.RequireDebugFalse'
+            },
+            'require_debug_true': {
+                '()': 'django.utils.log.RequireDebugTrue',
+            },
+        },
+        'formatters': {
+            'verbose': {
+                'format': '[%(asctime)s] %(levelname)s (pid: %(process)d) [%(name)s.%(module)s: %(funcName)s:%(lineno)d] %(message)s',
+            },
+        },
+        'handlers': {
+            'mail_admins': {
+                'level': 'ERROR',
+                'filters': ['require_debug_false'],
+                'class': 'django.utils.log.AdminEmailHandler'
+            },
+            'console': {
+                'level': 'DEBUG',
+                'filters': ['require_debug_true'],
+                'class': 'logging.StreamHandler',
+            },
+            'uipa_org_logfile': {
+                'level': 'DEBUG',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': 'uipa_org_dev_app.log', # put in the working directory
+                'maxBytes': 1024*1024*5,  # 5MB
+                'backupCount': 10,
+                'formatter': 'verbose',
+            },
+        },
+        'loggers': {
+            'froide': {
+                'handlers': ['uipa_org_logfile'],
+                'level': 'DEBUG',
+                'propagate': False,
+            },
+            'django': {
+                'handlers': ['uipa_org_logfile'],
+                'level': 'DEBUG',
+                'propagate': False,
+            },
+            # Use instead of 'django.request' to log all requests; added in Django 1.11.
+            'django.server': {
+                'handlers': ['uipa_org_logfile'],
+                'level': 'DEBUG',
+                'propagate': False,
+            },
+            'django.security': {
+                'handlers': ['uipa_org_logfile'],
+                'level': 'DEBUG',
+                'propagate': False,
+            },
+            'django.db.backends': {
+                'level': 'DEBUG',
+                'handlers': ['uipa_org_logfile'],
+                'propagate': False,
+            },
+            'django.template': {
+                'level': 'INFO',
+                'handlers': ['uipa_org_logfile'],
+                'propagate': False,
+            },
+            'uipa_org': {
+                'handlers': ['uipa_org_logfile'],
+                'level': 'DEBUG',
+                'propagate': False,
+            },
+        }
+    }
 
     # Start of email settings
     # Read the docs about these settings here: https://github.com/okfde/froide/blob/2dc1899cfe732c3f1d658f07ca86626dd5baa1a3/docs/configuration.rst#settings-for-sending-e-mail
