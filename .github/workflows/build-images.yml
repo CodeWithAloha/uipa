@@ -21,6 +21,6 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           push: true
-          tags: test-build
+          tags: uipa:test-build
 
 
