@@ -36,7 +36,7 @@
     "typescript": "^5.1.6",
     "vite": "^4.5.5",
     "vite-plugin-dev-manifest": "^1.0.9",
-    "vue": "^3.3.4",
+    "vue": "^3.5.43",
     "vue-eslint-parser": "^9.3.1"
   },
   "dependencies": {
