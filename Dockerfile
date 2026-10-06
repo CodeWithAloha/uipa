@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:0.5.8-python3.13-alpine AS local-base
+FROM ghcr.io/astral-sh/uv:0.6.17-python3.13-alpine AS local-base
 
 LABEL maintainer="Suchandra Thapa <suchandra.spam+docker@gmail.com>"
 # use alpine 3.20 with python 3.13 / uv 0.58
