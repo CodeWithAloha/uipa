@@ -7,7 +7,7 @@ readme = "README.md"
 requires-python = "== 3.13.*"
 dependencies = [
     "django~=4.2.30",
-    "bleach == 6.1.*",
+    "bleach == 6.4.*",
     "celery >= 5.2.2",
     "channels == 4.0.*",
     "coreapi == 2.3.*",
@@ -50,9 +50,9 @@ dependencies = [
     "python-mimeparse == 1.6.*",
     "python-slugify == 8.0.*",
     "reportlab == 4.1.*",
-    "requests == 2.31.*",
+    "requests == 2.33.*",
     "wand == 0.6.*",
-    "weasyprint == 61.1.*",
+    "weasyprint == 70.0.*",
     "websockets == 12.0.*",
     "pikepdf == 9.0.0",
     "django-filingcabinet @ git+https://github.com/okfde/django-filingcabinet.git@main",
