@@ -19,7 +19,7 @@
     "@typescript-eslint/parser": "^5",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-typescript": "^11.0.3",
-    "autoprefixer": "^10.4.13",
+    "autoprefixer": "^10.6.1",
     "cli-real-favicon": "0.0.9",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.9.0",
