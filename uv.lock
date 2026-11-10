@@ -1044,8 +1044,7 @@ woff = [
 [[package]]
 name = "froide"
 version = "5.0.2"
-#source = { git = "https://github.com/codewithaloha/froide2#e2b70838f273e23053d571b94f9c0c7086cf067a" }
-source = { git = "https://github.com/codewithaloha/froide2#main" }
+source = { git = "https://github.com/codewithaloha/froide2#e2b70838f273e23053d571b94f9c0c7086cf067a" }
 dependencies = [
     { name = "bleach" },
     { name = "celery" },
